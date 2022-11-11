@@ -44,6 +44,8 @@
 			<tr>
 				<td>
 					<a class="btn btn-warning button" href="<%=request.getContextPath()%>/dept/deptList.jsp"><span class="btFont">부서 관리</span></a>
+					<a class="btn btn-warning button" href="<%=request.getContextPath()%>/emp/empList.jsp"><span class="btFont">사원 관리</span></a>
+					<a class="btn btn-warning button" href="<%=request.getContextPath()%>/board/boardList.jsp"><span class="btFont">게시판 관리</span></a>
 				</td>
 			</tr>
 		</table>	
