@@ -28,7 +28,7 @@
 	// 쿼리 실행
 	int row = stmt.executeUpdate();
 	
-	if(row == 1) { // row가 1이면 삭제성공이므로 List로 돌아가고/ row가 0이면 msg와 함께 deleBoardForm으로 돌아가기
+	if(row == 1) { 
 		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
 	} else {
 		String msg = URLEncoder.encode("비밀번호를 확인하세요", "utf-8");

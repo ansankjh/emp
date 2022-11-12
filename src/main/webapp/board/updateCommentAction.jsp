@@ -20,13 +20,13 @@
 	// 쿼리문 ?값 지정
 	stmt.setString(1, commentContent);			
 	stmt.setInt(2, commentNo);
-	stmt.setInt(3, boardNo);	
+	stmt.setInt(3, boardNo);
 	stmt.setString(4, commentPw);
 	
 	
 	int row = stmt.executeUpdate();
 	
-	if(row == 1) {
+	if(row == 1) { // Form에서 입력된 commentPw값과 쿼리에 있는 commentPw값이 일치하면 수정성공 불일치하면 비밀번호 확인하세요 메시지 보냄
 		response.sendRedirect(request.getContextPath()+"/board/boardOne.jsp?commentNo="+commentNo+"&boardNo="+boardNo);
 	} else {
 		String msg = URLEncoder.encode("비밀번호를 확인하세요", "utf-8");

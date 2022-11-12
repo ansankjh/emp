@@ -56,6 +56,33 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<style>
+			.center {
+				text-align : center;
+				font-size : 15pt;
+				font-weight : bold;
+			}
+			.button {
+				text-align : center;
+				width : 350px ;
+				height : 40px;				
+			}
+			.button2 {
+				text-align : center;
+				width : 250px ;
+				height : 30px;				
+			}
+			.btFont {
+				font-size : 15pt;
+				text-align : center;			
+				line-height : 30px;
+			}
+			.btFont2 {
+				font-size : 15pt;
+				text-align : center;			
+				line-height : 20px;
+			}
+			</style>
 		<meta charset="UTF-8">
 		<title>boardList</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,56 +90,54 @@
 	</head>
 	<body>
 		<!-- 메뉴 partial jsp 구성 -->
-		<div>
+		<div align="center">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
 		
-		<h1>자유 게시판</h1>	
-		<!-- 3. 모델데이터(ArrayList<Board>) 출력 -->
-		<div>
-			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp">게시글입력</a>
+		<h1 align="center">자유 게시판(<%=currentPage%>)</h1>	
+		<!-- 3. 모델데이터(ArrayList<Board>) 출력 -->		
+		<div class="container">
+			<table class="table table-striped center" style="width:950px;" align="center">
+				<tr>		
+					<th>번호</th>
+					<th>제목</th>			
+				</tr>
+				
+				<%
+					for(Board b : boardList) { // foreach문 boardList 배열이 가진 요소를 반복시킨다.(no,title)
+				%>
+						<tr>
+							<td><%=b.boardNo%></td>
+							<!-- 제목 클릭시 상세보기로 이동 -->
+							<td>
+								<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>"><%=b.boardTitle%></a>
+							</td>					
+						</tr>
+				<%
+					}
+				%>				
+			</table>
 		</div>
-		<table class="table table-striped">
-			<tr>		
-				<th>번호</th>
-				<th>제목</th>			
-			</tr>
-			
-			<%
-				for(Board b : boardList) { // foreach문 boardList 배열이 가진 요소를 반복시킨다.(no,title)
-			%>
-					<tr>
-						<td><%=b.boardNo%></td>
-						<!-- 제목 클릭시 상세보기로 이동 -->
-						<td>
-							<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>"><%=b.boardTitle%></a>
-						</td>					
-					</tr>
-			<%
-				}
-			%>
-		</table>	
+		<div colspan = "4" class = "center">
+			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp?" class="btn btn-success button"><span class="btFont">게시글입력</span></a>
+		</div>
 		<!-- 3-2. 페이징 -->
-		<div>
-			<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=1">처음</a>
+		<div colspan = "4" class = "center">
+			<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=1" class="btn btn-info button2"><span class="btFont2">처음</span></a>
 			<%
 				if(currentPage > 1){ // 현재 페이지가 1보다 커야 이전 버튼이 생긴다.
 			%>
-					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-info button2"><span class="btFont2">이전</span></a>
 			<%
-				}
-			%>
-			
-			<span><%=currentPage%></span>
-			
-			<%
+				}			
 				if(currentPage < lastPage) { // 현재 페이지가 마지막 페이지가 아닐때까지만 다음 버튼 출력
 			%>
-					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-info button2"><span class="btFont2">다음</span></a>
 			<%
 				}
 			%>		
-			<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=lastPage%>">마지막</a>
+			<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=lastPage%>" class="btn btn-info button2"><span class="btFont2">마지막</span></a>	
 		</div>
+		
 	</body>
 </html>

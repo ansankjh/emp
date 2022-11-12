@@ -25,11 +25,11 @@
 	
 	int row = pwStmt.executeUpdate();
 	
-	if(row == 1) {
+	if(row == 1) { // 삭제성공시 boardOne으로 돌아가도록 강제 실패시 Form에 머무르면서 비밀번호 오류 메시지만 출력되게함
 		response.sendRedirect(request.getContextPath()+"/board/boardOne.jsp?commentNo="+commentNo+"&boardNo="+boardNo);
 	} else {
 		String msg = URLEncoder.encode("비밀번호 오류","utf-8");
-		response.sendRedirect(request.getContextPath()+"/board/boardOne.jsp?commentNo="+commentNo+"&boardNo="+boardNo+"&msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/board/deleteCommentForm.jsp?commentNo="+commentNo+"&boardNo="+boardNo+"&msg="+msg);
 	}
 
 %>

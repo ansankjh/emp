@@ -22,6 +22,7 @@
 	// 쿼리 실행
 	ResultSet rs = stmt.executeQuery();
 	
+	// rs반복해서 Content랑 createdate 참조값 저장하기
 	String commentContent = null;
 	String createdate = null;
 	while(rs.next()) {
@@ -31,34 +32,50 @@
 %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>댓글 수정</h1>
-	<!-- msg 파라메타 값이 있으면 출력 -->		
-		<%
-			if(msg !=null) {
-		%>
-				<div><%=msg%></div>
-		<%
+	<head>
+		<style>
+			.td {
+				line-height : 100px;
 			}
-		%>
-	<form method="post" action="<%=request.getContextPath()%>/board/updateCommentAction.jsp">
-		<input type="hidden" name="commentNo" value="<%=commentNo%>">
-		<input type="hidden" name="boardNo" value="<%=boardNo%>">
-		<table>
-			<tr>
-				<td>수정할 내용 : </td>
-				<td><textarea rows="3" cols="80"  name="commentContent"><%=commentContent %></textarea></td>
-			</tr>
-			<tr>
-				<td>수정 비밀번호 : </td>
-				<td><input type="password" name="commentPw"></td>
-			</tr>
-		</table>		
-		<button type="submit">수정</button>
-	</form>
-</body>
+			.center {
+				text-align : center;
+				font-size : 15pt;
+				font-weight : bold;
+			}
+		</style>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	</head>
+	<body>
+		<h1 align="center">댓글 수정</h1>
+		<!-- msg 파라메타 값이 있으면 출력 -->		
+			<%
+				if(msg !=null) {
+			%>
+					<div><%=msg%></div>
+			<%
+				}
+			%>
+		<form method="post" action="<%=request.getContextPath()%>/board/updateCommentAction.jsp">
+			<input type="hidden" name="commentNo" value="<%=commentNo%>">
+			<input type="hidden" name="boardNo" value="<%=boardNo%>">
+			<div class>
+				<table class="table table-striped center" style="width:950px;" align="center">
+					<tr>
+						<td class="td">수정할 내용 : </td>
+						<td><textarea rows="3" cols="80"  name="commentContent"><%=commentContent%></textarea></td>
+					</tr>
+					<tr>
+						<td>수정 비밀번호 : </td>
+						<td>
+							<input type="password" name="commentPw">
+							<button type="submit">수정</button>
+						</td>
+					</tr>
+				</table>
+			</div>			
+		</form>
+	</body>
 </html>

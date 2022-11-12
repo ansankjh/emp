@@ -44,64 +44,76 @@
 %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>게시글 수정</h1>
-	<!-- msg 파라메타 값이 있으면 출력 -->		
-		<%
-			if(msg !=null) {
-		%>
-				<div><%=msg%></div>
-		<%
+	<head>
+		<style>
+			.center {
+				text-align : center;
+				font-size : 15pt;
+				font-weight : bold;
 			}
-		%>
-	<form method="post" action="<%=request.getContextPath()%>/board/updateBoardAction.jsp">
-		<div>
-			<table>
-				<tr>
-					<td>번호</td>
-					<td>
-						<input type="text" name="boardNo" value="<%=boardNo%>" readonly="readonly">
-					</td>
-				</tr>
-				<tr>
-					<td>제목</td>
-					<td>
-						<input type="text" name="boardTitle" value="<%=boardTitle%>">
-					</td>
-				</tr>
-				<tr>
-					<td>내용</td>
-					<td>
-						<textarea cols="25" rows="5" name="boardContent"><%=boardContent%></textarea>						
-					</td>
-				</tr>
-				<tr>
-					<td>글쓴이</td>
-					<td>
-						<input type="text" name="boardWriter" value="<%=boardWriter%>" readonly="readonly">
-					</td>
-				</tr>
-				<tr>
-					<td>생성날짜</td>
-					<td>
-						<input type="text" name="createdate" value="<%=createdate%>" readonly="readonly">
-					</td>
-				</tr>		
-				<tr>
-					<td>수정 비밀번호</td>
-					<td>
-						<input type="password" name="boardPw">
-					</td>
-				</tr>		
-			</table>
-		</div>
-		<div>
-			<button type="submit">수정</button>
-		</div>	
-	</form>
-</body>
+			.td {
+				line-height: 150px;
+			}
+		</style>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	</head>
+	<body>
+		<h1 align="center">게시글 수정</h1>
+		<!-- msg 파라메타 값이 있으면 출력 -->		
+			<%
+				if(msg !=null) {
+			%>
+					<div><%=msg%></div>
+			<%
+				}
+			%>
+		<form method="post" action="<%=request.getContextPath()%>/board/updateBoardAction.jsp">
+			<div class="container">
+				<table class="table table-striped center" style="width:600px;" align="center">
+					<tr>
+						<td>번호</td>
+						<td>
+							<input type="text" name="boardNo" value="<%=boardNo%>" readonly="readonly">
+						</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td>
+							<input type="text" name="boardTitle" value="<%=boardTitle%>">
+						</td>
+					</tr>
+					<tr>
+						<td class="td">내용</td>
+						<td>
+							<textarea cols="40" rows="5" name="boardContent"><%=boardContent%></textarea>						
+						</td>
+					</tr>
+					<tr>
+						<td>글쓴이</td>
+						<td>
+							<input type="text" name="boardWriter" value="<%=boardWriter%>" readonly="readonly">
+						</td>
+					</tr>
+					<tr>
+						<td>생성날짜</td>
+						<td>
+							<input type="text" name="createdate" value="<%=createdate%>" readonly="readonly">
+						</td>
+					</tr>		
+					<tr>
+						<td>수정 비밀번호</td>
+						<td>
+							<input type="password" name="boardPw">
+						</td>
+					</tr>		
+				</table>
+			</div>
+			<div class="center">
+				<button type="submit">수정</button>
+			</div>	
+		</form>
+	</body>
 </html>

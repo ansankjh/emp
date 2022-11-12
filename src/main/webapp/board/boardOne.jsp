@@ -87,6 +87,43 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<style>			
+			.td {						
+				line-height: 250px;
+			}
+			.td2 {
+				width: 100px;	
+			}
+			.td3 {
+				width: 200px;
+			}
+			.center {
+				text-align : center;
+				font-size : 15pt;
+				font-weight : bold;
+			}
+			.center2 {
+				text-align : center;
+				font-size : 12pt;
+				font-weight : bold;
+			}
+			.font {
+				font-size : 15pt;
+			}
+			.font2 {
+				font-size : 20pt;
+			}
+			.button {
+				text-align : center;
+				width : 50px ;
+				height : 40px;	
+			}
+			.btFont {
+				font-size : 8pt;
+				text-align : center;							
+				font-weight : bold;
+			}
+		</style>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -94,38 +131,68 @@
 	</head>
 	<body>
 		<!-- 메뉴 partial jsp 구성 -->
-		<div>
+		<div align="center">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
-		<h1>게시글 상세보기</h1>
-		<table class="table table-striped">
-			<tr>
-				<td>번호</td>
-				<td><%=board.boardNo%></td>
-			</tr>
-			<tr>
-				<td>제목</td>
-				<td><%=board.boardTitle%></td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td><%=board.boardContent%></td>
-			</tr>
-			<tr>
-				<td>글쓴이</td>
-				<td><%=board.boardWriter%></td>
-			</tr>
-			<tr>
-				<td>생성날짜</td>
-				<td><%=board.createdate%></td>
-			</tr>
-		</table>
-			<a href="<%=request.getContextPath()%>/board/updateBoardForm.jsp?boardNo=<%=boardNo%>">수정</a>
-			<a href="<%=request.getContextPath()%>/board/deleteBoardForm.jsp?boardNo=<%=boardNo%>">삭제</a>
+		<h1 align="center">게시글 상세보기</h1>		
+		<div class="container">
+			<table class="table table-striped center" style="width:1000px;" align="center">
+				<tr>
+					<td class="td2">번호</td>
+					<td><%=board.boardNo%></td>
+				</tr>
+				<tr>
+					<td class="td2">제목</td>
+					<td><%=board.boardTitle%></td>
+				</tr>
+				<tr>
+					<td class="td td2">내용</td>
+					<td><%=board.boardContent%></td>
+				</tr>
+				<tr>
+					<td class="td2">글쓴이</td>
+					<td><%=board.boardWriter%></td>
+				</tr>
+				<tr>
+					<td class="td2">생성날짜</td>
+					<td><%=board.createdate%></td>
+				</tr>
+			</table>
+		</div>
+		<div colspan = "4" class = "center">
+			<a href="<%=request.getContextPath()%>/board/updateBoardForm.jsp?boardNo=<%=boardNo%>" class="btn btn-dark">게시글 수정</a>
+			<a href="<%=request.getContextPath()%>/board/deleteBoardForm.jsp?boardNo=<%=boardNo%>" class="btn btn-dark">게시글 삭제</a>
+		</div>		
+		
+		
 		
 		<div>
+			<!-- 댓글 목록 -->
+			<h2 align="center">댓글 목록</h2>
+			<%
+				for(Comment c : commentList) {
+			%>
+					<div>
+						<table class="table table-striped center" style="width:1000px;" align="center">
+							<tr>
+								<td class="font td3">
+									<%=c.commentNo%>번 댓글
+									<div>
+										<a href="<%=request.getContextPath()%>/board/updateCommentForm.jsp?commentNo=<%=c.commentNo%>&boardNo=<%=boardNo%>" class="btn btn-info button"><span class="btFont">수정</span></a>
+										<a href="<%=request.getContextPath()%>/board/deleteCommentForm.jsp?commentNo=<%=c.commentNo%>&boardNo=<%=boardNo%>" class="btn btn-info button"><span class="btFont">삭제</span></a>					
+									</div>
+								</td>
+								<td><%=c.commentContent%></td>
+							</tr>							
+						</table>
+					</div>			
+			<%
+				}
+			%>
+			
+		</div>
+		<div>
 			<!-- 댓글입력 폼 -->
-			<h2>댓글입력</h2>
 			<% // 비밀번호 틀려서 실패시 넘어올 메시지 출력
 				if(msg != null) {
 			%>
@@ -135,61 +202,41 @@
 			%>
 			<form method="post" action="<%=request.getContextPath()%>/board/insertCommentAction.jsp">
 				<input type="hidden" name="boardNo" value="<%=board.boardNo %>"> <!-- 부모글번호 히든으로 넘겨주기 -->
-				<table>
-					<tr>
-						<td>내용</td>
-						<td>
-							<textarea rows="3" cols="80" name="commentContent"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td>비밀번호</td>
-						<td>
-							<input type="password" name="commentPw">
-						</td>
-					</tr>
-					<tr>
-						<td>생성날짜</td>
-						<td></td>
-					</tr>
-				</table>
-				<button type="submit">댓글입력</button>
+				<div class="container" align="center">
+					<table class="table table-striped center2" style="width:1000px;" align="center">
+						<tr>
+							<td class="td2">댓글입력</td>
+							<td>
+								<textarea rows="3" cols="80" name="commentContent"></textarea>								
+							</td>
+						</tr>
+						<tr>
+							<td class="td2">비밀번호</td>
+							<td>
+								<input type="password" name="commentPw">
+								<button type="submit">댓글입력</button>
+							</td>
+						</tr>						
+					</table>
+					<!-- 댓글 페이징 -->
+					<%
+						if(currentPage > 1) {
+					%>
+							<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage=<%=currentPage-1%>" class="btn btn-info button2">이전</a>
+					<%
+						}
+					%>
+						<span><%=currentPage%></span>
+					<%
+						if(currentPage < lastPage) {
+					%>
+							<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage=<%=currentPage+1%>" class="btn btn-info button2">다음</a>
+					<%
+						}
+					%>
+				</div>
+				
 			</form>
-		</div>
-		
-		<div>
-			<!-- 댓글 목록 -->
-			<h2>댓글 목록</h2>
-			<%
-				for(Comment c : commentList) {
-			%>
-					<div>
-						<div>
-							<%=c.commentNo%>
-							<span><a href="<%=request.getContextPath()%>/board/updateCommentForm.jsp?commentNo=<%=c.commentNo%>&boardNo=<%=boardNo%>">수정</a></span>
-							<a href="<%=request.getContextPath()%>/board/deleteCommentForm.jsp?commentNo=<%=c.commentNo%>&boardNo=<%=boardNo%>">삭제</a>
-						</div>
-						<div><%=c.commentContent%></div>
-					</div>
-			<%
-				}
-			%>
-			<!-- 댓글 페이징 -->
-			<%
-				if(currentPage > 1) {
-			%>
-					<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage=<%=currentPage-1%>">이전</a>
-			<%
-				}
-			%>
-				<span><%=currentPage%></span>
-			<%
-				if(currentPage < lastPage) {
-			%>
-					<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage=<%=currentPage+1%>">다음</a>
-			<%
-				}
-			%>
 		</div>
 	</body>
 </html>
