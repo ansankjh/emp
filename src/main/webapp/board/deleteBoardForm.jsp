@@ -22,11 +22,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>		
-		<h1 align="center">게시글 삭제</h1>
+		<h1 align="center">[<%=boardNo%>번] 게시글삭제</h1>
 		<% // 비밀번호 틀려서 실패시 넘어올 메시지 출력
 			if(msg != null) {
 		%>
-				<div><%=msg%></div>
+				<div class="center text-danger"><%=msg%></div>
 		<%
 			}
 		%>

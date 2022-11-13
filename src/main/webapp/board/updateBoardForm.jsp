@@ -66,7 +66,7 @@
 			<%
 				if(msg !=null) {
 			%>
-					<div><%=msg%></div>
+					<div class="center text-danger"><%=msg%></div>
 			<%
 				}
 			%>

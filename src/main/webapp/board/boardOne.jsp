@@ -36,6 +36,9 @@
 		board.boardWriter = boardRs.getString("boardWriter");
 		board.createdate = boardRs.getString("createdate");
 	}
+%>
+
+<%
 	// ----------------------------------------------댓글 부분----------------------------------------------------------
 	/*
 	SELECT comment_no commentNo, board_no boardNo, comment_content commentContent FROM comment WHERE board_no = ?
@@ -196,7 +199,7 @@
 			<% // 비밀번호 틀려서 실패시 넘어올 메시지 출력
 				if(msg != null) {
 			%>
-					<div><%=msg%></div>
+					<div class="center text-danger"><%=msg%></div>
 			<%
 				}
 			%>
@@ -235,7 +238,7 @@
 						}
 					%>
 				</div>
-				
+					
 			</form>
 		</div>
 	</body>
