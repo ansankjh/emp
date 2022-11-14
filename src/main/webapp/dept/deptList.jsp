@@ -8,8 +8,7 @@
 	// 2. 업무처리(Model) -> 모델데이터가 남는다(단일값 or 자료구조형태(배열,리스트,....))
 	// 2-1. mariadb 드라이버 로딩
 	Class.forName("org.mariadb.jdbc.Driver");
-	// System.out.println("로딩완료"); 드라이버 로딩완료 디버깅 
-	
+	// System.out.println("로딩완료"); 드라이버 로딩완료 디버깅 	
 	// 2-2. mariadb 연결
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","wkqk1234");
 	// System.out.println(conn + "<-- conn"); conn 연결 완료 디버깅
