@@ -25,6 +25,8 @@
 	String empSql = null;
 	PreparedStatement countStmt = null;
 	PreparedStatement empStmt = null;
+	// word가 null이면 사원번호를 오름차순으로 조회하고 모든행을 가져오는 쿼리문 ?(페이지에 시작할 행의 숫자),?(한 페이지에 표시할 목록의 수)
+	// word에 입력된 값이 있으면 first_name또는 last_name에서 LIKE에 입력된 값을 포함하는 행을 조회하고 가져온다. 
 	if(word == null) {
 		countSql = "SELECT COUNT(*) FROM employees";
 		countStmt = conn.prepareStatement(countSql);
@@ -96,7 +98,6 @@
 	ResultSet empRs = empStmt.executeQuery();
 	// System.out.println(empRs);
 	
-	//   
 	ArrayList<Employee> empList = new ArrayList<Employee>();
 	while(empRs.next()) {
 		Employee e = new Employee();
@@ -131,7 +132,7 @@
 		<form method="get" action="<%=request.getContextPath()%>/emp/empList.jsp">
 			<div align="center">
 				<label for="word">내용 검색</label>
-				<input type="text" name="word" id="word" value="<%=word%>">
+				<input type="text" name="word" id="word" value="<%=word%>"> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
 				<button type="submit">검색</button>
 			</div>
 		</form>
@@ -158,7 +159,7 @@
 			</table>
 		</div>
 		
-		<!-- 페이징 코드 -->
+		<!-- 페이징 코드 --> <!-- 다음페이지에도 검색한 값으로 목록이 나올수있게 word값을 보내준다. -->
 		<div class="center">
 			<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=1">처음</a>
 			<%
