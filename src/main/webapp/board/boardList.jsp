@@ -79,8 +79,7 @@
 		Board b = new Board();
 		b.boardNo = listRs.getInt("boardNo");
 		b.boardTitle = listRs.getString("boardTitle");		
-		boardList.add(b);
-		
+		boardList.add(b);		
 	}	
 	// 3. 출력
 %>

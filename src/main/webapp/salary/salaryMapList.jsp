@@ -94,6 +94,7 @@
 	cntStmt.close();
 	conn.close(); // 드라이버 연결을 끊는 메서드
 %>
+
 <!DOCTYPE html>
 <html>
 	<head>
