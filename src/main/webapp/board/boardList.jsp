@@ -2,6 +2,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %>
+<%@ page import = "dao.*" %>
 <%
 	// 1. 요청분석
 	request.setCharacterEncoding("utf-8");
@@ -16,37 +17,26 @@
 	final int ROW_PER_PAGE = 10; // 페이지당 나타낼 목록의 수
 	int beginRow = (currentPage-1)*ROW_PER_PAGE; // ... Limit ?(beginRow), ?(ROW_PER_PAGE) 페이지의 시작행을 나타낸다.
 	
-	Class.forName("org.mariadb.jdbc.Driver"); //  드라이버 불러오기
-	// System.out.println("로딩성공");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","wkqk1234"); // 드라이버에 접속완
+	
 	// System.out.println("드라이버 접속완료"); // 드라이버에 접속 완료
 	
 	// 동적쿼리
 	// 쿼리문 집어넣을 변수랑 객체 넣을 변수 초기화
 	// null값 입력되면 원래 나오는 list , 단어가 입력되면 no 오름차순으로 board테이블에서 검색한 내용과(content) 같은 내용(content)을 포함한 no,title 나오게하는 쿼리 행의수 또한 내용(content)을 포함한 행의수 출력하게하는 쿼리
 	
-	String cntSql = null;
-	String listSql = null;
-	PreparedStatement cntStmt = null;
-	PreparedStatement listStmt = null;	
+	BoardDao boardDao = new BoardDao();
+	ArrayList<Board> boardList = null;
+	int cnt = 0;
 	if(word == null) {
-		listSql = "SELECT board_no boardNo, board_title boardTitle FROM board ORDER BY board_no ASC LIMIT ?, ?";
-		listStmt = conn.prepareStatement(listSql);
-		listStmt.setInt(1, beginRow);
-		listStmt.setInt(2, ROW_PER_PAGE);
-		cntSql = "SELECT COUNT(*) cnt FROM board";
-		cntStmt = conn.prepareStatement(cntSql);
-		word = "";
-	}  else {
-		listSql = "SELECT board_no boardNo, board_title boardTitle FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
-		listStmt = conn.prepareStatement(listSql);
-		listStmt.setString(1, "%"+word+"%");
-		listStmt.setInt(2, beginRow);
-		listStmt.setInt(3, ROW_PER_PAGE);
-		cntSql = "SELECT COUNT(*) cnt FROM board WHERE board_content LIKE ?";
-		cntStmt = conn.prepareStatement(cntSql);
-		cntStmt.setString(1, "%"+word+"%");			
+		boardList = boardDao.selectBoardList(beginRow, ROW_PER_PAGE);
+		cnt = boardDao.countBoard();
+		word = "";		
+	}  else if(word != null) {
+		boardList = boardDao.selectBoardListLike(beginRow, ROW_PER_PAGE, word);
+		cnt = boardDao.countBoardLike(word);
 	}
+	System.out.println(boardList);
+	System.out.println(cnt);
 	/*
 	// 전체 행의수를 저장하는 쿼리문
 	String cntSql = "SELECT COUNT(*) cnt FROM board";
@@ -54,11 +44,7 @@
 	PreparedStatement cntStmt = conn.prepareStatement(cntSql);
 	// ResultSet 쿼리실행결과로 객체(cntRs)의 값을 반환 executeQuery()<- SELECT문을 수행할때 사용 
 	*/
-	ResultSet cntRs = cntStmt.executeQuery();
-	int cnt = 0;
-	if(cntRs.next()) { // 전체 행의수
-		cnt = cntRs.getInt("cnt");
-	}
+	
 	
 	// 올림을 하게 되면 5.3 -> 6.0, 5.0->5.0
 	int lastPage = (int)(Math.ceil((double)cnt / (double)ROW_PER_PAGE));
@@ -71,16 +57,7 @@
 	listStmt.setInt(1, beginRow);
 	listStmt.setInt(2, ROW_PER_PAGE);
 	*/
-	// 생성한 쿼리 객체를 실행
-	ResultSet listRs = listStmt.executeQuery();
-	// 보편적이지 못한 while문 대신 foreach문을 사용하기 위해 ArrayList를 사용하여 배열 생성
-	ArrayList<Board> boardList = new ArrayList<Board>();
-	while(listRs.next()) {
-		Board b = new Board();
-		b.boardNo = listRs.getInt("boardNo");
-		b.boardTitle = listRs.getString("boardTitle");		
-		boardList.add(b);		
-	}	
+	
 	// 3. 출력
 %>
 <!DOCTYPE html>
@@ -178,7 +155,7 @@
 			%>
 					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-info button2"><span class="btFont2">다음</span></a>
 			<%
-				} else if(currentPage <lastPage && word != ""){
+				} else if(currentPage < lastPage && word != ""){
 			%>
 					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>&word=<%=word%>" class="btn btn-info button2"><span class="btFont2">다음</span></a>
 			<%
